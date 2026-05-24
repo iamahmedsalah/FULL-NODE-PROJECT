@@ -1,0 +1,20 @@
+{
+  "name": "@logizy/server-sdk",
+  "version": "1.0.0",
+  "description": "Server SDK for sending logs to Logizy",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "logizy",
+    "logging",
+    "sdk",
+    "server"
+  ],
+  "license": "ISC"
+}

@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Syne:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Syne', sans-serif;
+  --color-bg:      #070910;
+  --color-bg1:     #0d1117;
+  --color-bg2:     #131920;
+  --color-bg3:     #1a2232;
+  --color-border:  #1e2d42;
+  --color-border2: #243344;
+  --color-muted:   #566880;
+  --color-muted2:  #3a4f66;
+  --color-accent:  #00e5ff;
+  --color-accent2: #0099bb;
+  --color-linfo:   #22d3ee;
+  --color-lwarn:   #f59e0b;
+  --color-lerror:  #f43f5e;
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { font-size: 15px; }
+  body {
+    background: var(--color-bg);
+    color: #e2eaf5;
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  button:not(:disabled) { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: var(--color-bg1); }
+  ::-webkit-scrollbar-thumb { background: var(--color-border2); border-radius: 3px; }
+}
+
+@layer utilities {
+  .font-mono   { font-family: var(--font-mono); }
+  .font-sans   { font-family: var(--font-sans); }
+  .bg-bg       { background: var(--color-bg); }
+  .bg-bg1      { background: var(--color-bg1); }
+  .bg-bg2      { background: var(--color-bg2); }
+  .bg-bg3      { background: var(--color-bg3); }
+  .border-bdr  { border-color: var(--color-border); }
+  .border-bdr2 { border-color: var(--color-border2); }
+  .text-muted  { color: var(--color-muted); }
+  .text-muted2 { color: var(--color-muted2); }
+  .text-accent { color: var(--color-accent); }
+  .text-linfo  { color: var(--color-linfo); }
+  .text-lwarn  { color: var(--color-lwarn); }
+  .text-lerror { color: var(--color-lerror); }
+
+  .shimmer {
+    background: linear-gradient(90deg, var(--color-bg1) 25%, var(--color-bg2) 50%, var(--color-bg1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  .spin { animation: spin .7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .fade-up { animation: fadeUp .35s ease both; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+}
