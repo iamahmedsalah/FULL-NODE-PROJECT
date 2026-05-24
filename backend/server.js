@@ -1,15 +1,5 @@
 
-import dns from "node:dns";
-dns.setServers(["8.8.8.8", "1.1.1.1"])
-
-
-// import express
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-
-
-
 
 // HTTP logger middleware
 import morgan from "morgan";
