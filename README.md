@@ -35,23 +35,7 @@ Add your production links here:
 - Backend API: `https://your-backend-domain.vercel.app`
 - Postman API Docs: https://documenter.getpostman.com/view/52350176/2sBXwmPCAq#9cc73f04-c6a5-41b3-9590-4dfe59eb6665
 
-## Screenshots
 
-Add your UI shots to `docs/screenshots/` using the file names below.
-
-### Dashboard
-
-![Dashboard](docs/screenshots/dashboard.png)
-
-### Application Details
-
-![Application Details - Logs](docs/screenshots/app-detail-logs.png)
-![Application Details - Charts](docs/screenshots/app-detail-charts.png)
-
-### Authentication
-
-![Login](docs/screenshots/login.png)
-![Register](docs/screenshots/register.png)
 
 ## Core Features
 
@@ -221,6 +205,20 @@ Frontend:
 - `npm run build`
 - `npm run preview`
 
-## Final Screenshot
+## Screenshots
 
-![Final Screenshot](docs/screenshots/dashboard.png)
+Add your UI shots to `docs/screenshots/` using the file names below.
+
+### Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Application Details
+
+![Application Details - Logs](docs/screenshots/app-detail-logs.png)
+![Application Details - Charts](docs/screenshots/app-detail-charts.png)
+
+### Authentication
+
+![Login](docs/screenshots/login.png)
+![Register](docs/screenshots/register.png)
