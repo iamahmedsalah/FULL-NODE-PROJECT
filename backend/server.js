@@ -33,8 +33,10 @@ import dbConfig from "./config/database.js"
 const app = express();
 app.set("trust proxy", 1);
 
-// Database connection
-dbConfig();
+// Warm the DB connection on boot (non-blocking). Requests still await connection below.
+dbConfig().catch((err) => {
+    console.error(`Initial DB connect failed: ${err.message}`);
+});
 
 
 
@@ -81,6 +83,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 
+// In serverless environments, ensure DB is connected before hitting API routes.
+app.use("/api", async (req, res, next) => {
+    // CORS middleware already handles preflight.
+    if (req.method === "OPTIONS") return next();
+
+    try {
+        await dbConfig();
+        return next();
+    } catch (error) {
+        console.error(`DB middleware error: ${error.message}`);
+        return res.status(503).json({
+            success: false,
+            message: "Database is unavailable. Please try again.",
+        });
+    }
+});
+
 // Log requests to the console
 const devMode = process.env.NODE_ENV;
 devMode === "development"? app.use(morgan("dev")) && console.log(`Mode:In ${devMode}`) : console.log(`Mode:In ${devMode} `);
@@ -108,6 +127,29 @@ app.get("/", (_req, res) => {
     res.status(200).json({
         message: "Logizy backend is running",
         health: "/api/health",
+    });
+});
+
+app.use((err, req, res, _next) => {
+    console.error(`Unhandled request error on ${req.method} ${req.originalUrl}:`, err);
+
+    if (err?.type === "entity.parse.failed") {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid JSON payload.",
+        });
+    }
+
+    if (String(err?.message || "").startsWith("CORS blocked")) {
+        return res.status(403).json({
+            success: false,
+            message: "Origin is not allowed by CORS policy.",
+        });
+    }
+
+    return res.status(500).json({
+        success: false,
+        message: "Internal server error.",
     });
 });
 

@@ -44,6 +44,14 @@ export const signup = async (req, res) => {
 
 
     } catch (error) {
+        const message = String(error?.message || "");
+        if (message.includes("JWT_SECRET is not configured") || message.includes("expiresIn")) {
+            return res.status(500).json({
+                success: false,
+                message: "Server auth configuration error.",
+            });
+        }
+
         // Mongoose validation errors
         if (error.name === "ValidationError") {
             const messages = Object.values(error.errors).map((e) => e.message);
@@ -88,6 +96,14 @@ export const login = async (req, res) => {
         });
 
     } catch (error) {
+        const message = String(error?.message || "");
+        if (message.includes("JWT_SECRET is not configured") || message.includes("expiresIn")) {
+            return res.status(500).json({
+                success: false,
+                message: "Server auth configuration error.",
+            });
+        }
+
         console.error("Login Error Details:", error);
         return res.status(500).json({
             success: false,
