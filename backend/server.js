@@ -49,6 +49,8 @@ const configuredOrigins = String(process.env.FRONTEND_ORIGINS || process.env.FRO
 const staticAllowedOrigins = new Set([
     "http://localhost:5173",
     "http://localhost:4173",
+    "https://logizy-web.vercel.app",
+    "https://full-node-project.vercel.app",
     ...configuredOrigins,
 ]);
 
@@ -97,6 +99,17 @@ app.use("/api/apps", AppRoutes);
 
 // Logs routes 
 app.use("/api/apps/:name/logs", LogsRoutes);
+
+app.get("/api/health", (_req, res) => {
+    res.status(200).json({ ok: true, service: "logizy-backend" });
+});
+
+app.get("/", (_req, res) => {
+    res.status(200).json({
+        message: "Logizy backend is running",
+        health: "/api/health",
+    });
+});
 
 let server;
 if (!process.env.VERCEL) {

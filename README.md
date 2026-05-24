@@ -112,11 +112,13 @@ JWT_EXPIRES_IN=1d
 FRONTEND_ORIGINS=http://localhost:5173
 ```
 
-Frontend `.env`:
+Frontend `.env.development`:
 
 ```env
 VITE_API_URL=http://localhost:5000
 ```
+
+Frontend `.env` can stay empty. In production, set `VITE_API_URL` in Vercel project settings.
 
 ### 4) Run
 

@@ -1,4 +1,4 @@
-const DEFAULT_BASE_URL = "http://localhost:5000";
+const DEFAULT_BASE_URL = "https://full-node-project.vercel.app/";
 const VALID_LEVELS = new Set(["INFO", "WARN", "ERROR"]);
 
 const state = {
