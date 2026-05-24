@@ -27,12 +27,9 @@ This repository contains:
 - `backend/` -> Express + MongoDB API
 - `sdk/logizy-server-sdk/` -> npm package `@logizy/server-sdk`
 
-## Live Demo
+## Links
 
-Add your production links here:
-
-- Frontend: `https://your-frontend-domain.vercel.app`
-- Backend API: `https://your-backend-domain.vercel.app`
+- Live Demo: `https://logizy-web.vercel.app/login`
 - Postman API Docs: https://documenter.getpostman.com/view/52350176/2sBXwmPCAq#9cc73f04-c6a5-41b3-9590-4dfe59eb6665
 
 
@@ -173,6 +170,17 @@ Deployment config already included:
 - `backend/api/index.js`
 - `backend/vercel.json`
 - `frontend/vercel.json`
+- `vercel.json` (repo-root backend deploy option)
+
+### Backend Deploy Option A (Recommended)
+
+- Vercel project Root Directory: `backend`
+- Uses: `backend/vercel.json`
+
+### Backend Deploy Option B (Repo Root)
+
+- Vercel project Root Directory: `.`
+- Uses: root `vercel.json` and routes all requests to `backend/api/index.js`
 
 ### Backend Env (Vercel)
 
@@ -185,6 +193,22 @@ Deployment config already included:
 ### Frontend Env (Vercel)
 
 - `VITE_API_URL=https://your-backend-domain.vercel.app`
+
+### SDK Release (npm, not Vercel)
+
+The SDK lives in `sdk/logizy-server-sdk` and should be published to npm.
+
+```bash
+cd sdk/logizy-server-sdk
+npm login
+npm publish --access public
+```
+
+After publishing, users install it with:
+
+```bash
+npm install @logizy/server-sdk
+```
 
 ## Security Notes
 
