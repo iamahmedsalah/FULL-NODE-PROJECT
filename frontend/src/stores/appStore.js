@@ -43,6 +43,32 @@ const useAppStore = create((set, get) => ({
     }
   },
 
+  updateApp: async (currentName, name, description) => {
+    set({ loading: true, error: null });
+    try {
+      const { data } = await api.put(`/api/apps/update/${currentName}`, { name, description });
+      const updatedApp = data.data || data.app || data;
+
+      set((state) => ({
+        apps: state.apps.map((app) => {
+          const appName = app?.name || app;
+          return appName === currentName ? { ...app, ...updatedApp } : app;
+        }),
+        currentApp:
+          state.currentApp && (state.currentApp.name || state.currentApp) === currentName
+            ? { ...state.currentApp, ...updatedApp }
+            : state.currentApp,
+        loading: false,
+      }));
+
+      return { success: true, app: updatedApp };
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to update app";
+      set({ error: msg, loading: false });
+      return { success: false, message: msg };
+    }
+  },
+
   deleteApp: async (name) => {
     set({ loading: true, error: null });
     try {
