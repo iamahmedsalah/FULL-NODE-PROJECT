@@ -90,9 +90,11 @@ app.use("/api", async (req, res, next) => {
         await dbConfig();
         return next();
     } catch (error) {
-        console.error(`DB middleware error: ${error.message}`);
         const message = String(error?.message || "");
-        if (message.includes("querySrv") || message.includes("ENOTFOUND") || message.includes("ECONNREFUSED")) {
+        const lower = message.toLowerCase();
+        console.error(`DB middleware error [${error?.name || "UnknownError"}]: ${message}`);
+
+        if (lower.includes("querysrv") || lower.includes("enotfound") || lower.includes("econnrefused")) {
             return res.status(503).json({
                 success: false,
                 code: "DB_DNS_RESOLUTION_FAILED",
@@ -101,14 +103,41 @@ app.use("/api", async (req, res, next) => {
         }
 
         if (
-            message.includes("Server selection timed out") ||
-            message.includes("ECONNRESET") ||
-            message.includes("ETIMEDOUT")
+            lower.includes("server selection timed out") ||
+            lower.includes("econnreset") ||
+            lower.includes("etimedout")
         ) {
             return res.status(503).json({
                 success: false,
                 code: "DB_CONNECTION_TIMEOUT",
                 message: "Database connection timed out.",
+            });
+        }
+
+        if (lower.includes("authentication failed") || lower.includes("bad auth")) {
+            return res.status(503).json({
+                success: false,
+                code: "DB_AUTH_FAILED",
+                message: "Database authentication failed.",
+            });
+        }
+
+        if (
+            lower.includes("not allowed to access this mongodb deployment") ||
+            lower.includes("ip address")
+        ) {
+            return res.status(503).json({
+                success: false,
+                code: "DB_NETWORK_DENIED",
+                message: "Database network access is denied.",
+            });
+        }
+
+        if (lower.includes("uri") || lower.includes("connection string")) {
+            return res.status(503).json({
+                success: false,
+                code: "DB_URL_INVALID",
+                message: "Database connection string is invalid.",
             });
         }
 
