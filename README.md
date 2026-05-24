@@ -220,3 +220,7 @@ Frontend:
 - `npm run dev`
 - `npm run build`
 - `npm run preview`
+
+## Final Screenshot
+
+![Final Screenshot](docs/screenshots/dashboard.png)
