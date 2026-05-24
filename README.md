@@ -29,7 +29,7 @@ This repository contains:
 
 ## Links
 
-- Live Demo: `https://logizy-web.vercel.app/login`
+- Live Demo: https://logizy-web.vercel.app/login
 - Postman API Docs: https://documenter.getpostman.com/view/52350176/2sBXwmPCAq#9cc73f04-c6a5-41b3-9590-4dfe59eb6665
 
 
