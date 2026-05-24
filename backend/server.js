@@ -78,13 +78,43 @@ app.use("/api", async (req, res, next) => {
     // CORS middleware already handles preflight.
     if (req.method === "OPTIONS") return next();
 
+    if (!process.env.DB_URL) {
+        return res.status(503).json({
+            success: false,
+            code: "DB_URL_MISSING",
+            message: "Database config is missing on server.",
+        });
+    }
+
     try {
         await dbConfig();
         return next();
     } catch (error) {
         console.error(`DB middleware error: ${error.message}`);
+        const message = String(error?.message || "");
+        if (message.includes("querySrv") || message.includes("ENOTFOUND") || message.includes("ECONNREFUSED")) {
+            return res.status(503).json({
+                success: false,
+                code: "DB_DNS_RESOLUTION_FAILED",
+                message: "Database hostname resolution failed.",
+            });
+        }
+
+        if (
+            message.includes("Server selection timed out") ||
+            message.includes("ECONNRESET") ||
+            message.includes("ETIMEDOUT")
+        ) {
+            return res.status(503).json({
+                success: false,
+                code: "DB_CONNECTION_TIMEOUT",
+                message: "Database connection timed out.",
+            });
+        }
+
         return res.status(503).json({
             success: false,
+            code: "DB_UNAVAILABLE",
             message: "Database is unavailable. Please try again.",
         });
     }
